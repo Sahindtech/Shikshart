@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="pranshu (2).css">
+    <title>Dashboard</title>
+</head>
+<body>
+    <section class="dashboard">
+        <h3><b>COURSE ADDING FORM</b></h3>
+    <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th id="heading1" onclick="toggleForm('form1'); toggleColor('heading1')">Basic</th>
+          <th id="heading2" onclick="toggleForm('form2'); toggleColor('heading2')">Info</th>
+          <th id="heading3" onclick="toggleForm('form3'); toggleColor('heading3')">Pricing</th>
+          <th id="heading4" onclick="toggleForm('form4'); toggleColor('heading4')">Media</th>
+          <th id="heading5" onclick="toggleForm('form5'); toggleColor('heading5')">Seo</th>
+        </tr>
+      </thead>
+    </table>
+</div>
+
+<div id="forms-container">
+    <form id="form1" style="display: none;" >
+            <label for="courseType">Course Type:</label>
+            <select id="courseType" name="courseType">
+                <option value="online">Online</option>
+                <option value="inPerson">In-Person</option>
+                <option value="hybrid">Hybrid</option>
+            </select>
+
+            <label for="courseTitle">Course Title:</label>
+            <input type="text" id="courseTitle" name="courseTitle" placeholder="Enter Course Title" required>
+
+            <label for="shortDescription">Short Description:</label>
+            <textarea id="shortDescription" name="shortDescription" rows="3" placeholder="Briefly describe the course" required></textarea>
+            <label for="detailedDescription">Detailed Description:</label>
+            <textarea id="detailedDescription" name="detailedDescription" rows="6" placeholder="Enter detailed course description"></textarea>
+    </form>
+    <form id="form3" style="display: none;">
+        <!-- Form fields for heading 2 -->
+        <label for="field2">Field 2:</label>
+        <input type="text" id="field2" name="field2">
+    </form>
+    <form id="form2" style="display: none;">
+        <!-- Form fields for heading 3 -->
+        <div class="faq-container">
+            <div class="faq-section">
+                <input type="text" placeholder="Question">
+                <textarea placeholder="Answer"></textarea>
+            </div>
+            <div class="faq-section">
+                <input type="text" placeholder="Question">
+                <textarea placeholder="Answer"></textarea>
+            </div>
+            <div class="faq-actions">
+                <button class="add-faq">+</button>
+                <button class="remove-faq">-</button>
+            </div>
+        </div>
+    </form>
+<form id="full-form" style="display: none;">
+    <!-- Full form with all fields -->
+    <label for="full-field1">Full Field 1:</label>
+    <input type="text" id="full-field1" name="full-field1">
+    <label for="full-field2">Full Field 2:</label>
+    <input type="text" id="full-field2" name="full-field2">
+    <!-- Add more fields as needed -->
+    <input type="submit" value="Submit">
+</form>
+<form id="form4" style="display: none;">
+<label for="courseType">Course Type:</label>
+<select id="courseType" name="courseType">
+    <option value="online">Online</option>
+    <option value="inPerson">In-Person</option>
+    <option value="hybrid">Hybrid</option>
+</select>
+<label for="courseTitle">Course Url:</label>
+<input type="text" id="courseTitle" name="courseTitle" placeholder="Enter Course Title" required>
+</form>
+
+ </div>
+</section>
+    <script src="script.js">
+        let currentHeading = null;
+
+function toggleColor(headingId) {
+    if (currentHeading) {
+        currentHeading.classList.remove('active');
+    }
+
+    const heading = document.getElementById(headingId);
+    if (heading) {
+        heading.classList.add('active');
+        currentHeading = heading;
+    }
+}
+
+let currentForm = null;
+
+function toggleForm(formId) {
+    // Hide the currently displayed form
+    if (currentForm) {
+        currentForm.style.display = 'none';
+    }
+
+    // Show the selected form
+    const form = document.getElementById(formId);
+    if (form) {
+        form.style.display = 'block';
+        currentForm = form;
+    }
+
+    // If this is the last heading, show the full form
+    if (formId === 'form5') {
+        document.getElementById('full-form').style.display = 'block';
+    } else {
+        document.getElementById('full-form').style.display = 'none';
+    }
+
+    // Add event listeners for add-faq and remove-faq buttons
+    const addFaqButton = form.querySelector('.add-faq');
+    if (addFaqButton) {
+        addFaqButton.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default form submission behavior
+            const faqContainer = form.querySelector('.faq-container');
+            if (faqContainer) {
+                const newFaqSection = document.createElement('div');
+                newFaqSection.classList.add('faq-section');
+                newFaqSection.innerHTML = `
+                    <input type="text" placeholder="Question">
+                    <textarea placeholder="Answer"></textarea>
+                `;
+                faqContainer.insertBefore(newFaqSection, faqContainer.querySelector('.faq-actions'));
+            }
+        });
+    }
+    
+    const removeFaqButton = form.querySelector('.remove-faq');
+    if (removeFaqButton) {
+        removeFaqButton.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default form submission behavior
+            const faqSections = form.querySelectorAll('.faq-section');
+            if (faqSections.length > 2) {
+                faqSections[faqSections.length - 1].remove();
+            } else {
+                alert('At least two FAQs are required.');
+            }
+        });
+    }
+    
+}
+
+    </script>
+</body>
+</html>
